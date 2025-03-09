@@ -1,5 +1,5 @@
 module Data.CircularQueue
- ( CircularQueue
+ ( CircularQueue(..)
  , size
  , population
  , toArray
@@ -14,9 +14,9 @@ import Data.Unfoldable (class Unfoldable, unfoldr)
 import Data.Tuple.Nested (type (/\), (/\))
 
 -- | A datatype representing a (frozen, immutable) optionally-self-resizing circular queue.
--- My code is expected to enforce the invariants that:
--- - read and write are both < the length of the array
--- - write cannot move past read (this either triggers a resize, moves both, or fails)
+-- | For this to behave as desired, it is expected to maintain the invariants that:
+-- | - read and write are both < the length of the array
+-- | - write cannot move past read (this either triggers a resize, moves both, or fails)
 data CircularQueue a = OQ (Array a) Int Int
 
 -- | Gets the size of the underlying buffer, including elements which have already been read.

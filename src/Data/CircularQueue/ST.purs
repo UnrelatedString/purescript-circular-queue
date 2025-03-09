@@ -1,6 +1,8 @@
 module Data.CircularQueue.ST
  ( STCircularQueue
+ , run
  , new
+ , fromArray
  , size
  , population
  , pop
@@ -14,19 +16,35 @@ module Data.CircularQueue.ST
 import Prelude
 
 import Control.Monad.ST (ST, Region)
+import Control.Monad.ST as ST
 import Control.Monad.ST.Ref (STRef)
 import Control.Monad.ST.Ref as STRef
 import Data.Array.ST (STArray, length)
 import Data.Array.ST as STArray
 import Data.Maybe (Maybe(..), isJust)
+import Data.CircularQueue (CircularQueue(..))
 
 type Cursor r = STRef r Int
 
 data STCircularQueue :: Region -> Type -> Type
 data STCircularQueue r a = STOQ (STArray r a) (Cursor r) (Cursor r)
 
+run :: forall a. (forall r. ST r (STCircularQueue r a)) -> CircularQueue a
+run action = ST.run do
+  STOQ ringo readRef writeRef <- action
+  arr <- STArray.unsafeFreeze ringo -- like STArray.run, this can't leak
+  read <- STRef.read readRef
+  write <- STRef.read writeRef
+  pure $ OQ arr read write
+
 new :: forall r a. ST r (STCircularQueue r a)
 new = STOQ <$> STArray.new <*> STRef.new 0 <*> STRef.new 0
+
+fromArray :: forall r a. Array a -> ST r (STCircularQueue r a)
+fromArray arr = do
+  ringo <- STArray.new -- this has nothing to do with apples in case I confuse myself in a week
+  void $ STArray.pushAll arr ringo
+  STOQ ringo <$> STRef.new 0 <*> STRef.new 0
 
 -- | Gets the size of the underlying buffer, including elements which have already been read.
 size :: forall r a. STCircularQueue r a -> ST r Int

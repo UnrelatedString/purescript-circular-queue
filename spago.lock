@@ -24,9 +24,6 @@
               "tuples": ">=7.0.0 <8.0.0"
             },
             {
-              "typelevel": ">=6.0.0 <7.0.0"
-            },
-            {
               "unfoldable": ">=6.0.0 <7.0.0"
             }
           ],
@@ -58,8 +55,6 @@
             "tailrec",
             "tuples",
             "type-equality",
-            "typelevel",
-            "typelevel-prelude",
             "unfoldable",
             "unsafe-coerce"
           ]
@@ -1764,18 +1759,6 @@
       "version": "4.0.1",
       "integrity": "sha256-Hs9D6Y71zFi/b+qu5NSbuadUQXe5iv5iWx0226vOHUw=",
       "dependencies": []
-    },
-    "typelevel": {
-      "type": "registry",
-      "version": "6.0.0",
-      "integrity": "sha256-Iu7INcwTC/SbKcienMe7KKQvWku2VhCZSGCvrQWVVoc=",
-      "dependencies": [
-        "partial",
-        "prelude",
-        "tuples",
-        "typelevel-prelude",
-        "unsafe-coerce"
-      ]
     },
     "typelevel-prelude": {
       "type": "registry",
