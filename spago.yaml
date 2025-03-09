@@ -1,13 +1,21 @@
 package:
   name: ring-buffer
   dependencies:
-    - console
-    - effect
+    - arrays
+    - control
+    - st
     - prelude
   test:
     main: Test.Main
-    dependencies: []
+    dependencies:
+      - spec
+      - spec-quickcheck
+      - spec-node
+      - my-spec-reporter
 workspace:
   packageSet:
     registry: 63.3.0
-  extraPackages: {}
+  extraPackages:
+    my-spec-reporter:
+      git: https://github.com/UnrelatedString/my-spec-reporter.git
+      ref: main
