@@ -5,8 +5,10 @@ module Data.CircularQueue.ST
 import Prelude
 
 import Control.Monad.ST (ST, Region, run)
-import Control.Monad.STRef (STRef)
-import Data.Array.Sparse.ST (STReserveArray)
+import Control.Monad.ST.Ref (STRef)
+import Control.Monad.ST.Ref as STRef
+import Data.Array.ST (STArray)
+import Data.Array.ST as STArray
 
 data STCircularQueue :: Region -> Type -> Type
-data STCircularQueue r a = STOQ (STReserveArray r a) (STRef r Int) (STRef r Int)
+data STCircularQueue r a = STOQ (STArray r a) (STRef r Int) (STRef r Int)
