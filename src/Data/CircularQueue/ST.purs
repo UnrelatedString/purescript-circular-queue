@@ -13,7 +13,7 @@ module Data.CircularQueue.ST
 
 import Prelude
 
-import Control.Monad.ST (ST, Region, run)
+import Control.Monad.ST (ST, Region)
 import Control.Monad.ST.Ref (STRef)
 import Control.Monad.ST.Ref as STRef
 import Data.Array.ST (STArray, length)
