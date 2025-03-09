@@ -1,5 +1,5 @@
-module Data.RingBuffer.ST
- ( 
+module Data.CircularQueue.ST
+ ( STCircularQueue
  ) where
 
 import Prelude
@@ -7,4 +7,4 @@ import Prelude
 import Control.Monad.ST (Region, run)
 import Data.Array.ST (STArray)
 
-data STRingBuffer -- this is kind of unfortunate because it starts with "string" aaaa
+data STCircularQueue

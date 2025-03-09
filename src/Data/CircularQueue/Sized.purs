@@ -1,8 +1,8 @@
-module Data.RingBuffer.Sized
- ( SizedRingBuffer
+module Data.CircularQueue.Sized
+ ( SizedCircularQueue
  ) where
 
 import Prelude
 import Data.Typelevel.Num.Sets (class Nat)
 
-data SizedRingBuffer
+data SizedCircularQueue
