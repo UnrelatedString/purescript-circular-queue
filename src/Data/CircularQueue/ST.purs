@@ -133,6 +133,9 @@ zealousGrowPush (STOQ arr _ writeRef) elem = do
 bulldoze :: forall r a. STCircularQueue r a -> a -> ST r (Maybe a)
 bulldoze stoq elem
   | STOQ arr readRef writeRef <- stoq = do
-  result <- pop stoq
+  read <- STRef.read readRef
+  write <- STRef.read writeRef
+  result <- join <$> whenA (read == write) do
+    pop stoq
   uncheckedPush arr writeRef elem
   pure result
