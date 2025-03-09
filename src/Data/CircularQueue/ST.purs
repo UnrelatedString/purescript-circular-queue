@@ -44,7 +44,7 @@ whenA true action = Just <$> action
 whenA false _ = pure Nothing
 
 -- | Internal helper.
-uncheckedPush :: forall r a. STArray r a -> Cursor r -> a -> ST r Unit
+--uncheckedPush :: forall r a. STArray r a -> Cursor r -> a -> ST r Unit
 uncheckedPush arr writeRef elem = do
   len <- length arr
   write <- STRef.read writeRef
