@@ -44,11 +44,11 @@ whenA true action = Just <$> action
 whenA false _ = pure Nothing
 
 -- | Internal helper.
---uncheckedPush :: forall r a. STArray r a -> Cursor r -> a -> ST r Unit
+uncheckedPush :: forall r a. STArray r a -> Cursor r -> a -> ST r Unit
 uncheckedPush arr writeRef elem = do
   len <- length arr
   write <- STRef.read writeRef
-  void $ STArray.poke write elem
+  void $ STArray.poke write elem arr
   void $ STRef.write (write + 1 `mod` len) writeRef
 
 -- | Read and consume an element from the queue.
@@ -58,7 +58,7 @@ pop stoq
   result <- peek stoq
   when (isJust result) do
     len <- length arr
-    read <- readRef
+    read <- STRef.read readRef
     void $ STRef.write (read + 1 `mod` len) readRef
   pure result
 
@@ -95,8 +95,8 @@ growPush (STOQ arr readRef writeRef) elem = do
     prefix <- STArray.splice 0 read [] arr
     void $ STArray.pushAll prefix arr
     void $ STArray.push elem arr
-    void $ STRef.write readRef 0
-    void $ STRef.write writeRef 0
+    void $ STRef.write 0 readRef
+    void $ STRef.write 0 writeRef
   else do
     uncheckedPush arr writeRef elem
 
