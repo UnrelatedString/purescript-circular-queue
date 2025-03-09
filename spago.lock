@@ -5,10 +5,24 @@
         "path": "./",
         "core": {
           "dependencies": [
-            "arrays",
-            "control",
-            "prelude",
-            "st"
+            {
+              "arrays": ">=7.3.0 <8.0.0"
+            },
+            {
+              "control": ">=6.0.0 <7.0.0"
+            },
+            {
+              "prelude": ">=6.0.2 <7.0.0"
+            },
+            {
+              "st": ">=6.2.0 <7.0.0"
+            },
+            {
+              "typelevel": ">=6.0.0 <7.0.0"
+            },
+            {
+              "unfoldable": ">=6.0.0 <7.0.0"
+            }
           ],
           "build_plan": [
             "arrays",
@@ -38,6 +52,8 @@
             "tailrec",
             "tuples",
             "type-equality",
+            "typelevel",
+            "typelevel-prelude",
             "unfoldable",
             "unsafe-coerce"
           ]
@@ -1742,6 +1758,18 @@
       "version": "4.0.1",
       "integrity": "sha256-Hs9D6Y71zFi/b+qu5NSbuadUQXe5iv5iWx0226vOHUw=",
       "dependencies": []
+    },
+    "typelevel": {
+      "type": "registry",
+      "version": "6.0.0",
+      "integrity": "sha256-Iu7INcwTC/SbKcienMe7KKQvWku2VhCZSGCvrQWVVoc=",
+      "dependencies": [
+        "partial",
+        "prelude",
+        "tuples",
+        "typelevel-prelude",
+        "unsafe-coerce"
+      ]
     },
     "typelevel-prelude": {
       "type": "registry",
