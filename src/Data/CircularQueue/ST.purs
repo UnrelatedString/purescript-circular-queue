@@ -1,5 +1,14 @@
 module Data.CircularQueue.ST
  ( STCircularQueue
+ , new
+ , size
+ , population
+ , pop
+ , peek
+ , push
+ , growPush
+ , zealousGrowPush
+ , bulldoze
  ) where
 
 import Prelude
@@ -40,7 +49,7 @@ uncheckedPush arr writeRef elem = do
   len <- length arr
   write <- STRef.read writeRef
   void $ STArray.poke write elem
-  STRef.write (write + 1 `mod` len) writeRef
+  void $ STRef.write (write + 1 `mod` len) writeRef
 
 -- | Read and consume an element from the queue.
 pop :: forall r a. STCircularQueue r a -> ST r (Maybe a)
@@ -50,7 +59,7 @@ pop stoq
   when (isJust result) do
     len <- length arr
     read <- readRef
-    STRef.write (read + 1 `mod` len) readRef
+    void $ STRef.write (read + 1 `mod` len) readRef
   pure result
 
 -- | Get an element from the queue without reading/consuming it.
@@ -83,12 +92,11 @@ growPush (STOQ arr readRef writeRef) elem = do
     void $ STArray.push elem arr
   else if read == write then do
     -- Nuclear option!
-    len <- length arr
     prefix <- STArray.splice 0 read [] arr
     void $ STArray.pushAll prefix arr
     void $ STArray.push elem arr
-    STRef.write readRef 0
-    STRef.write writeRef 0
+    void $ STRef.write readRef 0
+    void $ STRef.write writeRef 0
   else do
     uncheckedPush arr writeRef elem
 
@@ -107,7 +115,6 @@ zealousGrowPush (STOQ arr _ writeRef) elem = do
 bulldoze :: forall r a. STCircularQueue r a -> a -> ST r (Maybe a)
 bulldoze stoq elem
   | STOQ arr readRef writeRef <- stoq = do
-  read <- STRef.read readRef
-  write <- STRef.read writeRef
   result <- pop stoq
   uncheckedPush arr writeRef elem
+  pure result
